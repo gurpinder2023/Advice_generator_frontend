@@ -1,0 +1,28 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+</head>
+<body>
+    <script>
+        // Check if the user is logged in and is an admin
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            // Not logged in, redirect to login page
+            window.location.href = 'login.html';
+        } else {
+            const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT
+            if (!payload.isAdmin) {
+                // User is not an admin, redirect to index page
+                window.location.href = 'index.html';
+            }
+        }
+    </script>f
+    <h1>Welcome to Admin Page</h1>
+    <!-- Admin content goes here -->
+</body>
+</html>
