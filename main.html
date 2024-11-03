@@ -10,6 +10,13 @@
 </head>
 
 <body>
+  <script>
+    // Check if the user is logged in by verifying the token in localStorage
+    if (!localStorage.getItem('token')) {
+      // Redirect to the login page if the user is not logged in
+      window.location.href = 'index.html';
+    }
+  </script>
   <header class="p-3 text-bg-dark">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
