@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advice of the Day</title>
+  <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="p-3 text-bg-dark">
@@ -16,41 +15,33 @@
             </a> -->
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              
               <li><a href="#" class="nav-link px-4 text-white">Advice_Generator</a></li>
-             
             </ul>
     
             
             <div class="text-end">
               <!-- <a href="#" class="nav-link px-4 text-white">Advice_Generator</a> -->
-              
-              <button type="button" class="btn btn-warning" onclick="window.location.href='signup.html'">Log out</button>
+              <button type="button" class="btn btn-outline-light me-2" onclick="window.location.href='index.html'">Login</button>
+              <button type="button" class="btn btn-warning" onclick="window.location.href='signup.html'">Sign-up</button>
             </div>
           </div>
         </div>
       </header>
-      
   <div class="container mt-5">
-    
-    <h2>Get Your Health Advice</h2>
-    <div id="requestCount" class="mb-3">
-      <strong>Your Request Count: </strong><span id="countValue">0</span>
-  </div>
-    <form id="adviceForm">
+    <h2>Login</h2>
+    <form id="loginForm">
       <div class="mb-3">
-        <label for="age" class="form-label">Age</label>
-        <input type="number" id="age" class="form-control" required>
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-control" required>
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" id="name" class="form-control" required>
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-primary">Get Advice</button>
+      <button type="submit" class="btn btn-primary">Login</button>
     </form>
-    <div id="adviceResult" class="mt-4"></div>
   </div>
 
-  <script src="advice.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>
