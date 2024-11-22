@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+
+<body>
+  <script>
+    // Redirect to login page if the user is not logged in
+    if (!localStorage.getItem('token')) {
+      window.location.href = 'index.html';
+    }
+  </script>
+
+  <!-- Header -->
+  <header class="p-3 text-bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-between">
+        <h2 class="text-white">
+          <a href="landing.html" class="text-decoration-none text-white">MultiAssist</a>
+        </h2>
+        <button type="button" class="btn btn-warning" onclick="localStorage.removeItem('token'); window.location.href='index.html'">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Profile Card -->
+  <div class="container mt-5 d-flex justify-content-center">
+    <div class="profile-card col-md-6">
+      <h2 class="profile-header text-center">Your Profile</h2>
+      <hr>
+      <div class="mb-4 text-center">
+        <strong>Name</strong> <span id="profileName" class="email-text">Loading...</span>
+      </div>
+      <div class="mb-4 text-center">
+        <strong>Email:</strong> <span id="profileEmail" class="email-text">Loading...</span>
+      </div>
+      <div class="d-flex justify-content-center">
+        <button class="btn delete-btn btn-danger px-4" id="deleteProfileButton">Delete Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    // Fetch and display profile data
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1])); // Decode JWT
+
+      document.getElementById('profileEmail').textContent = payload.email || 'Unknown';
+      document.getElementById('profileName').textContent = payload.name || 'Unknown';
+    }
+
+    // Delete profile functionality
+    document.getElementById('deleteProfileButton').addEventListener('click', async () => {
+      const confirmation = confirm("Are you sure you want to delete your profile? This action cannot be undone.");
+      if (confirmation) {
+        try {
+          const response = await fetch(`${BASE_URL}/deleteProfile`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (response.ok) {
+            alert('Your profile has been successfully deleted.');
+            localStorage.removeItem('token'); // Remove the token from localStorage
+            window.location.href = 'index.html'; // Redirect to the login page
+          } else {
+            const error = await response.json();
+            alert(`Failed to delete profile: ${error.message}`);
+          }
+        } catch (error) {
+          console.error('Error deleting profile:', error);
+          alert('An error occurred. Please try again later.');
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

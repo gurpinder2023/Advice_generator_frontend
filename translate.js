@@ -1,17 +1,17 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const requestCount = await fetchRequestCount();
     document.getElementById('countValue').innerText = requestCount; // Display request count
-    // Add event listener to the advice form
-    document.getElementById("adviceForm").addEventListener("submit", async (event) => {
+
+    // Add event listener to the translate form
+    document.getElementById("translateForm").addEventListener("submit", async (event) => {
         event.preventDefault(); // Prevent the default form submission
 
-        const age = document.getElementById("age").value;
-        const name = document.getElementById("name").value;
-        const behavior = document.getElementById("behaviour").value; // Ensure this matches the HTML ID
+        const text = document.getElementById("text").value;
+        const language = document.getElementById("language").value;
 
-        const advice = await getAdvice(age, name, behavior); // Fetch the advice
-        document.getElementById("adviceResult").innerText = advice; // Display the advice
-        document.getElementById("adviceResult").style.display = "block"; // Make the advice alert visible
+        const translation = await getTranslation(text, language); // Fetch the translation
+        document.getElementById("translationResult").innerText = translation; // Display the translation
+        document.getElementById("translationResult").style.display = "block"; // Make the translation alert visible
     });
 });
 
@@ -31,7 +31,6 @@ const fetchRequestCount = async () => {
 
         if (response.ok) {
             if (data.warning) {
-                // console.log(data.warning);
                 showWarning(data.warning); // Display the warning message
             }
             return data.requestCount; // Return the request count
@@ -45,9 +44,8 @@ const fetchRequestCount = async () => {
     }
 };
 
-
-// Function to fetch health advice
-const getAdvice = async (age, name, behavior) => {
+// Function to fetch translation
+const getTranslation = async (text, language) => {
     const token = localStorage.getItem('token'); // Get the stored token
 
     // Show loading message
@@ -55,29 +53,29 @@ const getAdvice = async (age, name, behavior) => {
     loadingMessage.style.display = 'block'; // Show the loading message
 
     try {
-        const response = await fetch(`${BASE_URL}/getAdvice`, {
+        const response = await fetch(`${BASE_URL}/translate`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
             },
-            body: JSON.stringify({ age, name, behavior })
+            body: JSON.stringify({ text, language })
         });
 
         const data = await response.json();
 
-         // Hide loading message once the response is received
-         loadingMessage.style.display = 'none'; // Hide the loading message
+        // Hide loading message once the response is received
+        loadingMessage.style.display = 'none'; // Hide the loading message
 
         if (response.ok) {
-            return data.advice; // Return the advice from the server
+            return data.translation; // Return the translation from the server
         } else {
-            console.error(data.error || 'Failed to fetch advice');
-            return `An error occurred while fetching advice. ${data.error}`; // Default error message
+            console.error(data.error || 'Failed to fetch translation');
+            return `An error occurred while fetching the translation. ${data.error}`; // Default error message
         }
     } catch (error) {
-        console.error('Error fetching advice:', error);
-        return `An error occurred while fetching advice. ${error}`; // Default error message
+        console.error('Error fetching translation:', error);
+        return `An error occurred while fetching the translation. ${error}`; // Default error message
     }
 };
 

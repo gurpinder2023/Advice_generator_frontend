@@ -4,7 +4,7 @@ async function submitForm(event) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
   
-    const response = await fetch('https://advice-generator-backend-5jgh.onrender.com/register', {
+    const response = await fetch(`${BASE_URL}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
@@ -31,7 +31,7 @@ async function submitLoginForm(event) {
 
     try {
         // Send a POST request to the login endpoint
-        const response = await fetch('https://advice-generator-backend-5jgh.onrender.com/login', {
+        const response = await fetch(`${BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -45,15 +45,11 @@ async function submitLoginForm(event) {
             alert('Login successful! Redirecting to dashboard...');
             // Store the JWT in localStorage or cookies (for demonstration purposes)
             localStorage.setItem('token', data.token);
-            // Redirect to the dashboard or another page
-            // Fetch the request count and store it in localStorage
-            // const requestCount = await fetchRequestCount();
-            // localStorage.setItem('requestCount', requestCount);
-            // Redirect based on the isAdmin attribute
+            
             if (data.isAdmin) {
                 window.location.href = 'admin.html';
             } else {
-                window.location.href = 'main.html';
+                window.location.href = 'landing.html';
             }
             // Fetch the request count
          // Change to your desired redirect page

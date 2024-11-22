@@ -8,92 +8,72 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <script>
-        // Check if the user is logged in and is an admin
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            // Not logged in, redirect to login page
-            window.location.href = 'index.html';
-        } else {
-            const payload = JSON.parse(atob(token.split('.')[1])); // Decode the JWT
-            if (!payload.isAdmin) {
-                // User is not an admin, redirect to index page
-                window.location.href = 'main.html';
-            }
-        }
-
-        // Fetch user requests data from the API
-        async function fetchUserRequests() {
-            try {
-                const response = await fetch('https://advice-generator-backend-5jgh.onrender.com/userRequests', { // Adjust the URL as needed
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-
-                const data = await response.json();
-                populateRequestsTable(data);
-            } catch (error) {
-                console.error('Error fetching user requests data:', error);
-            }
-        }
-
-        // Populate user request data in the table
-        function populateRequestsTable(requests) {
-            const tableBody = document.getElementById('requests-table-body');
-            requests.forEach(request => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${request.name}</td>
-                    <td>${request.email}</td>
-                    
-                    <td>${request.requestCount || 0}</td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Call the fetchUserRequests function when the page loads
-        window.onload = fetchUserRequests;
-    </script>
-
     <header class="p-3 text-bg-dark">
         <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="#" class="nav-link px-4 text-white">Advice_Generator</a></li>
-                </ul>
-                <div class="text-end">
-                    <button type="button" class="btn btn-warning" onclick="localStorage.removeItem('token'); window.location.href='index.html'">Log out</button>
-                </div>
+            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                <h2 class="text-white"> MultiAssist</h2>
+                <button type="button" class="btn btn-warning" onclick="localStorage.removeItem('token'); window.location.href='index.html'">Log out</button>
             </div>
         </div>
     </header>
 
-    <h1>Welcome to Admin Page</h1>
+    <div class="container mt-4">
+        <h2>User Requests</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Total Requests</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="requests-table-body">
+                <!-- User data will populate here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="container mt-4">
+        <h2>API Stats</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Endpoint</th>
+                    <th>Total Requests</th>
+                </tr>
+            </thead>
+            <tbody id="api-stats-table-body">
+                <!-- API stats will populate here -->
+            </tbody>
+        </table>
+    </div>
+    
 
-    <!-- User Requests data table -->
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                
-                <th>Total Requests</th>
-            </tr>
-        </thead>
-        <tbody id="requests-table-body">
-            <!-- User requests data will be populated here -->
-        </tbody>
-    </table>
+    <!-- Modal for Editing Request Count -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Request Count</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editEmail">
+                        <div class="mb-3">
+                            <label for="editRequestCount" class="form-label">New Request Count</label>
+                            <input type="number" class="form-control" id="editRequestCount" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Admin content goes here -->
+    <script src="config.js"></script>
+    <script src="admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

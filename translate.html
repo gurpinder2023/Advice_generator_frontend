@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advice of the Day</title>
+  <title>Translate Text</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -37,46 +37,48 @@
     </div>
   </header>
 
-
-  
   <div class="container mt-5">
+    <!-- Request Count -->
     <div id="requestCount" class="mb-3">
       <strong>Your Request Count: </strong><span id="countValue">0</span>
     </div>
-    <!-- <div id="warningMessage" style="display: none; color: red; font-weight: bold;">gafe</div> -->
-    <div class="alert alert-warning" role="alert"  id="warningMessage" style="display: none;">
 
+    <!-- Warning Message -->
+    <div class="alert alert-warning" role="alert" id="warningMessage" style="display: none;">
       This is a warning alert—check it out!
     </div>
 
-    <h2>Get Your Health Advice</h2>
-    
-    <form id="adviceForm">
+    <h2>Translate Your Text</h2>
+
+    <form id="translateForm">
       <div class="mb-3">
-        <label for="age" class="form-label">Age</label>
-        <input type="number" id="age" class="form-control" required>
+        <label for="text" class="form-label">Text to Translate</label>
+        <textarea id="text" class="form-control" rows="3" required></textarea>
       </div>
       <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" id="name" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label for="behaviour" class="form-label">Behaviour</label>
-        <input type="text" id="behaviour" class="form-control" required>
+        <label for="language" class="form-label">Target Language</label>
+        <select id="language" class="form-control" required>
+          <option value="hindi">Hindi</option>
+          <option value="french">French</option>
+          
+        </select>
       </div>
 
-      <button type="submit" class="btn btn-primary">Get Advice</button>
+      <button type="submit" class="btn btn-primary">Translate</button>
     </form>
     <br>
-    <div id="loadingMessage" style="display: none;">Loading, please wait...</div>
 
-    <div class="alert alert-success" id="adviceResult" role="alert" style="display: none;">
-      This is a success alert—check it out!
+    <!-- Loading Message -->
+    <div id="loadingMessage" style="display: none;" class="alert alert-info">Loading, please wait...</div>
+
+    <!-- Translation Result -->
+    <div id="translationResult" class="alert alert-success" role="alert" style="display: none;">
+      Translation will appear here.
     </div>
   </div>
 
   <script src="config.js"></script>
-  <script src="advice.js"></script>
+  <script src="translate.js"></script>
 </body>
 
 </html>
